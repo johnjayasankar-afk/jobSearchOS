@@ -1,44 +1,49 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#080d18"><meta name="description" content="Job Search OS — a private, local-first command center for startup and product job search."><title>Job Search OS</title><link rel="stylesheet" href="styles.css">
-</head>
-<body>
-<div class="cursor-glow"></div><div class="aurora a1"></div><div class="aurora a2"></div><div class="noise"></div>
-<header class="topbar"><a class="brand" href="#"><span class="logo">J</span><span><strong>Job Search OS</strong><small>PRODUCT · AI · FINTECH</small></span></a><nav><button class="nav active" data-view="dashboard">Dashboard</button><button class="nav" data-view="boards">Boards</button><button class="nav" data-view="tracker">Tracker</button><button class="nav" data-view="analytics">Analytics</button></nav><div class="top-actions"><button class="icon-btn" id="searchShortcut">⌘K</button><button class="primary" id="addAppBtn">+ Add application</button></div></header>
-<main class="shell">
-<section class="view active" id="dashboardView">
-  <div class="hero-row reveal"><div><div class="eyebrow"><span class="dot"></span> PERSONAL CAREER COMMAND CENTER</div><h1>Turn the job search into a <span>measurable product funnel.</span></h1><p>One place to launch high-signal boards, manage applications, protect follow-ups, and see what is actually converting.</p></div><div class="date-card spotlight-card"><span id="todayLabel">FRIDAY · AUG 14</span><strong id="weekHeadline">Keep the pipeline moving.</strong><small id="weekSub">Your data stays in this browser.</small></div></div>
-  <div class="stat-grid reveal delay1"><article class="stat spotlight-card"><span>Active pipeline</span><strong id="statActive">0</strong><small>applications in motion</small></article><article class="stat spotlight-card"><span>Interviews</span><strong id="statInterviews">0</strong><small>screen + interview stages</small></article><article class="stat spotlight-card"><span>Response rate</span><strong id="statResponse">—</strong><small>applications with a response</small></article><article class="stat spotlight-card"><span>Next actions due</span><strong id="statDue">0</strong><small>today or overdue</small></article></div>
-  <div class="dash-grid reveal delay2">
-    <article class="focus-panel spotlight-card"><div class="panel-head"><div><span>FOCUS / TODAY</span><h2>Your next best actions</h2></div><button class="text-btn" data-jump="tracker">Open tracker ↗</button></div><div id="actionQueue" class="action-list"></div></article>
-    <article class="goal-panel spotlight-card"><div class="panel-head"><div><span>WEEKLY SYSTEM</span><h2>Application cadence</h2></div><strong id="goalCount">0 / 8</strong></div><div class="goal-ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50"></circle><circle class="progress" id="goalCircle" cx="60" cy="60" r="50"></circle></svg><div><strong id="goalPct">0%</strong><span>weekly goal</span></div></div><div class="goal-controls"><button data-goal="5">5</button><button class="active" data-goal="8">8</button><button data-goal="12">12</button></div><p>Consistent high-quality applications beat random bursts. Track activity without turning the search into a vanity metric.</p></article>
-  </div>
-  <div class="section-head reveal"><div><span>HIGH-SIGNAL SOURCES</span><h2>Launch the right board for the job.</h2></div><button class="ghost" data-jump="boards">View all 18 boards →</button></div><div class="board-strip reveal" id="featuredBoards"></div>
-</section>
-
-<section class="view" id="boardsView">
- <div class="page-head"><div><span>01 / DISCOVER</span><h1>Job boards, <em>ranked by signal.</em></h1><p>Filter by the kind of search you are running. Open any source in a new tab without losing your tracker.</p></div><div class="search-box"><span>⌕</span><input id="boardSearch" placeholder="Search boards or tags…"><kbd>/</kbd></div></div>
- <div class="filters" id="boardFilters"><button class="active" data-filter="all">All</button><button data-filter="ai">AI</button><button data-filter="fintech">Fintech</button><button data-filter="vc">VC portfolios</button><button data-filter="nyc">NYC</button><button data-filter="boston">Boston</button><button data-filter="startup">Startups</button></div>
- <div class="board-grid" id="boardGrid"></div>
-</section>
-
-<section class="view" id="trackerView">
- <div class="page-head tracker-head"><div><span>02 / PIPELINE</span><h1>Your search, <em>as a product funnel.</em></h1><p>Local-first tracking with stages, next actions, compensation, source, notes, and exportable data.</p></div><div class="tracker-actions"><button class="ghost" id="importBtn">Import JSON</button><button class="ghost" id="exportDataBtn">Export JSON</button><button class="primary" id="addAppBtn2">+ Add application</button></div></div>
- <div class="pipeline-summary" id="pipelineSummary"></div>
- <div class="table-tools"><div class="search-box compact"><span>⌕</span><input id="appSearch" placeholder="Search company, role, location…"></div><select id="stageFilter"><option value="all">All stages</option><option>Saved</option><option>Applied</option><option>Recruiter Screen</option><option>Interview</option><option>Final</option><option>Offer</option><option>Closed</option></select></div>
- <div class="tracker-table-wrap spotlight-card"><table><thead><tr><th>Company / Role</th><th>Stage</th><th>Location</th><th>Comp</th><th>Source</th><th>Next action</th><th></th></tr></thead><tbody id="appTable"></tbody></table><div class="empty-state" id="emptyApps"><span>＋</span><h3>No applications yet</h3><p>Add your first opportunity or load the demo data to see the system in motion.</p><button class="ghost" id="loadDemoData">Load demo pipeline</button></div></div>
-</section>
-
-<section class="view" id="analyticsView">
- <div class="page-head"><div><span>03 / LEARN</span><h1>See what is <em>actually converting.</em></h1><p>The tracker turns your search into a feedback loop: source quality, stage conversion, pace, and response rate.</p></div></div>
- <div class="analytics-grid"><article class="chart-card spotlight-card"><span>FUNNEL</span><h2>Stage distribution</h2><div class="funnel" id="funnelChart"></div></article><article class="chart-card spotlight-card"><span>SOURCE</span><h2>Where opportunities come from</h2><div class="donut-wrap"><div class="donut" id="sourceDonut"><div><strong id="donutTotal">0</strong><span>apps</span></div></div><div class="legend" id="sourceLegend"></div></div></article><article class="chart-card wide spotlight-card"><span>ACTIVITY</span><h2>Applications by week</h2><div class="bars" id="weeklyBars"></div></article></div>
-</section>
-</main>
-<footer><div class="shell"><div><strong>Job Search OS</strong><span>LOCAL-FIRST · PRIVATE BY DEFAULT</span></div><p>Your application data is stored only in this browser unless you export it.</p><button class="text-btn" id="clearData">Reset local data</button></div></footer>
-
-<dialog id="appDialog"><button class="close" id="closeAppDialog">×</button><div class="modal-head"><span>APPLICATION</span><h2 id="modalTitle">Add opportunity</h2></div><form id="appForm"><input type="hidden" id="editId"><div class="form-grid"><label>Company<input id="company" required placeholder="e.g. Ramp"></label><label>Role<input id="role" required placeholder="e.g. Senior Product Manager"></label><label>Stage<select id="stage"><option>Saved</option><option selected>Applied</option><option>Recruiter Screen</option><option>Interview</option><option>Final</option><option>Offer</option><option>Closed</option></select></label><label>Location<input id="location" placeholder="NYC / Remote"></label><label>Comp / range<input id="comp" placeholder="$200k–$250k + equity"></label><label>Source<input id="source" placeholder="a16z / recruiter / referral"></label><label>Applied date<input type="date" id="appliedDate"></label><label>Next action date<input type="date" id="nextDate"></label><label class="full">Job URL<input type="url" id="jobUrl" placeholder="https://…"></label><label class="full">Next action / notes<textarea id="notes" rows="4" placeholder="Follow up with recruiter; prep product sense story…"></textarea></label></div><div class="modal-actions"><button type="button" class="ghost" id="deleteAppBtn">Delete</button><button type="submit" class="primary">Save opportunity</button></div></form></dialog>
-<dialog id="commandDialog"><button class="close" id="closeCommand">×</button><div class="modal-head"><span>COMMAND PALETTE</span><h2>Jump anywhere</h2></div><input class="command-input" id="commandInput" placeholder="Type a board, view, or action…"><div id="commandResults" class="command-results"></div></dialog>
-<input type="file" id="importFile" accept="application/json" hidden>
-<script src="script.js"></script>
-</body></html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Opportunity OS</title>
+    <meta
+      name="description"
+      content="A private, local-first command center for managing a serious professional job search. Your data never leaves this device."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c0e12" media="(prefers-color-scheme: dark)" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Opportunity" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png" />
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+    <script>
+      // Apply the persisted theme before first paint to avoid a flash.
+      ;(function () {
+        try {
+          var stored = localStorage.getItem('oos.theme')
+          var mode = stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system'
+          var dark =
+            mode === 'dark' ||
+            (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+          document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light')
+        }
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div style="font-family: system-ui; padding: 32px; max-width: 40rem; margin: 0 auto">
+        <h1 style="font-size: 20px">Opportunity OS needs JavaScript</h1>
+        <p style="color: #555">
+          This application runs entirely in your browser and stores all data on this device. Please
+          enable JavaScript to continue.
+        </p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

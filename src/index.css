@@ -1,0 +1,317 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: 0 0% 100%;
+    --panel: 0 0% 100%;
+    --subtle: 220 20% 97.6%;
+    --raised: 220 20% 95.6%;
+    --line: 220 15% 90%;
+    --line-strong: 220 13% 82%;
+    --fg: 222 24% 11%;
+    /* Both clear WCAG AA (4.5:1) on the light background: metadata is small,
+       so it has to stay legible rather than merely decorative. */
+    --muted: 220 10% 38%;
+    --faint: 220 9% 47%;
+    --accent: 222 76% 50%;
+    --accent-fg: 0 0% 100%;
+    --accent-soft: 222 90% 96.5%;
+    --positive: 158 72% 27%;
+    --positive-soft: 152 62% 95%;
+    --caution: 30 92% 31%;
+    --caution-soft: 40 90% 94.5%;
+    --critical: 356 70% 45%;
+    --critical-soft: 356 90% 96.5%;
+    --info: 205 80% 38%;
+    --info-soft: 204 90% 95.5%;
+    --shadow: 222 40% 20%;
+    --scrollbar: 220 10% 78%;
+    color-scheme: light;
+  }
+
+  [data-theme='dark'] {
+    --bg: 225 12% 7.5%;
+    --panel: 225 11% 10%;
+    --subtle: 225 10% 12.5%;
+    --raised: 225 9% 16.5%;
+    --line: 225 8% 19%;
+    --line-strong: 222 8% 30%;
+    --fg: 210 22% 96%;
+    --muted: 218 10% 66%;
+    --faint: 218 9% 52%;
+    --accent: 217 92% 66%;
+    --accent-fg: 224 60% 9%;
+    --accent-soft: 220 60% 18%;
+    --positive: 155 60% 55%;
+    --positive-soft: 158 40% 16%;
+    --caution: 38 92% 62%;
+    --caution-soft: 36 45% 16%;
+    --critical: 356 82% 68%;
+    --critical-soft: 356 40% 18%;
+    --info: 202 85% 65%;
+    --info-soft: 204 45% 17%;
+    --shadow: 225 60% 2%;
+    --scrollbar: 225 6% 30%;
+    color-scheme: dark;
+  }
+
+  * {
+    border-color: hsl(var(--line));
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-bg text-fg font-sans text-base antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior-y: none;
+  }
+
+  ::selection {
+    background: hsl(var(--accent) / 0.22);
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--accent));
+    outline-offset: 1px;
+    border-radius: 3px;
+  }
+
+  /* Precise, unobtrusive scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--scrollbar)) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--scrollbar) / 0.75);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--scrollbar));
+  }
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: hsl(var(--faint));
+  }
+
+  /* Remove number spinners for compensation inputs */
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  input[type='date'],
+  input[type='datetime-local'] {
+    min-height: 1.25rem;
+  }
+  [data-theme='dark'] input[type='date']::-webkit-calendar-picker-indicator,
+  [data-theme='dark'] input[type='datetime-local']::-webkit-calendar-picker-indicator {
+    filter: invert(0.75);
+  }
+}
+
+@layer components {
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  .field {
+    @apply w-full rounded-md border border-line bg-panel px-2.5 py-1.5 text-base text-fg
+      shadow-xs transition-[border-color,box-shadow] duration-100
+      placeholder:text-faint hover:border-line-strong
+      focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25
+      disabled:cursor-not-allowed disabled:bg-subtle disabled:text-faint;
+  }
+
+  .field-invalid {
+    @apply border-critical focus:border-critical focus:ring-critical/25;
+  }
+
+  .label {
+    @apply block text-xs font-medium text-muted;
+  }
+
+  .kbd {
+    @apply inline-flex h-[18px] min-w-[18px] items-center justify-center rounded-sm border
+      border-line bg-subtle px-1 font-sans text-2xs font-medium text-muted;
+  }
+
+  .section-title {
+    @apply text-2xs font-semibold uppercase tracking-[0.06em] text-faint;
+  }
+
+  .surface {
+    @apply rounded-lg border border-line bg-panel;
+  }
+
+  .row-hover {
+    @apply transition-colors duration-75 hover:bg-subtle;
+  }
+
+  .link {
+    @apply text-accent underline-offset-2 hover:underline;
+  }
+
+  .scroll-shadow {
+    background:
+      linear-gradient(hsl(var(--panel)) 30%, hsl(var(--panel) / 0)) center top,
+      linear-gradient(hsl(var(--panel) / 0), hsl(var(--panel)) 70%) center bottom,
+      radial-gradient(farthest-side at 50% 0, hsl(var(--shadow) / 0.12), transparent) center top,
+      radial-gradient(farthest-side at 50% 100%, hsl(var(--shadow) / 0.12), transparent) center bottom;
+    background-repeat: no-repeat;
+    background-size:
+      100% 28px,
+      100% 28px,
+      100% 10px,
+      100% 10px;
+    background-attachment: local, local, scroll, scroll;
+  }
+}
+
+@layer utilities {
+  /*
+   * Lets the browser skip layout and paint for rows that are scrolled out of
+   * view. Cheaper and far less fragile than JavaScript windowing, and it
+   * degrades to normal rendering where it is unsupported.
+   */
+  .virtual-row {
+    content-visibility: auto;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .grid-lines {
+    background-image: linear-gradient(hsl(var(--line) / 0.6) 1px, transparent 1px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Print                                                                      */
+/* -------------------------------------------------------------------------- */
+
+@media print {
+  /* Always print on white with black text, whatever the screen theme is. */
+  :root,
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --bg: 0 0% 100%;
+    --panel: 0 0% 100%;
+    --subtle: 0 0% 100%;
+    --raised: 0 0% 94%;
+    --line: 0 0% 78%;
+    --line-strong: 0 0% 55%;
+    --fg: 0 0% 0%;
+    --muted: 0 0% 28%;
+    --faint: 0 0% 40%;
+    --accent: 222 80% 35%;
+    --positive: 158 80% 22%;
+    --caution: 30 90% 28%;
+    --critical: 356 75% 38%;
+    --info: 205 85% 30%;
+    --shadow: 0 0% 0%;
+    color-scheme: light;
+  }
+
+  @page {
+    margin: 14mm;
+  }
+
+  html,
+  body,
+  #root {
+    height: auto !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+
+  /* When a printable sheet is on screen, print that and nothing else. Using
+     visibility rather than display keeps the sheet's own layout intact. */
+  body:has(#print-root) * {
+    visibility: hidden !important;
+    box-shadow: none !important;
+  }
+  body:has(#print-root) #print-root,
+  body:has(#print-root) #print-root * {
+    visibility: visible !important;
+  }
+  body:has(#print-root) #print-root {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Rows skipped for on-screen performance must still reach the printer. */
+  .virtual-row {
+    content-visibility: visible !important;
+    contain-intrinsic-size: none !important;
+  }
+
+  /* Keep related blocks from splitting across a page break. */
+  section,
+  li,
+  .break-inside-avoid {
+    break-inside: avoid;
+  }
+}
